@@ -87,6 +87,12 @@ cd dictation-turbo
 "/Applications/Dictation Turbo.app/Contents/MacOS/DictationTurbo" --selftest samples/*.wav
 ```
 
+**双击判定单独也能验**（纯逻辑，不碰键盘、不会动到你在编辑的东西）：
+
+```sh
+"/Applications/Dictation Turbo.app/Contents/MacOS/DictationTurbo" --hotkey-test
+```
+
 ## 5. 卸载
 
 ```sh
