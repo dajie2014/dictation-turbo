@@ -17,6 +17,26 @@
 
 ---
 
+## 0. 不想碰终端？直接下载
+
+1. **下载**：<https://github.com/dajie2014/dictation-turbo/releases/latest>
+   （文件叫 `DictationTurbo-1.0.1-macOS.zip`）
+2. 解压，把 **Dictation Turbo** 拖进「应用程序」
+3. **第一次打开，系统会拦你一下** —— 因为没买苹果的开发者证书（一年 99 美元那个）。
+   **不是它有问题。** 放行一次：
+   - 右键点它 →「打开」→ 弹窗里再点「打开」；
+   - 要是找不到「打开」这个选项（macOS 15 之后取消了这一步），去
+     **系统设置 → 隐私与安全性**，往下翻会看到一条拦下它的提示，
+     点旁边的 **「仍要打开」**；
+   - 命令行一行也行：
+     `xattr -dr com.apple.quarantine "/Applications/Dictation Turbo.app"`
+4. **打开它之前，先做第 1 节**（装 VoiceStudio）—— 没有它，它转不出一个字。
+
+> 这个包适合 **Apple 芯片的 Mac（M1 及以后）**，我在真机上编译、签名、验过。
+> Intel 的机器走第 2 节自己编译（`./build.sh` 会跟着你的机器架构走）。
+
+---
+
 ## 1. 先装 VoiceStudio（必须）
 
 1. 下载并安装：<https://voicestudio.sh/> 或
