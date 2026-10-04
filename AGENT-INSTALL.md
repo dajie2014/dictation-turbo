@@ -74,7 +74,7 @@ cd dictation-turbo
 
 > 如果 `github.com` 在这台机器上不通（国内常见现象：它会一直静默卡住、不报错），
 > 换 `gh` 或镜像再试；**别把"卡住"当成"在下载"**。
-> 判断法和绕法见 [PITFALLS.md](PITFALLS.md) 第 14 条。
+> 判断法和绕法见 [PITFALLS.md](PITFALLS.md) 第 24 条。
 
 ## 第 3 步 · 装
 
@@ -98,7 +98,7 @@ cd dictation-turbo
   大概率那个弹窗被别的窗口压在下面了。
 
 如果脚本报 `resource fork, Finder information, or similar detritus not allowed`：
-脚本自己会换到临时目录签，正常。若连临时目录也失败，见 PITFALLS 第 7 条。
+脚本自己会换到临时目录签，正常。若连临时目录也失败，见 PITFALLS 第 9 条。
 
 ## 第 4 步 · 让人给「辅助功能」权限（必须人工）
 
@@ -193,6 +193,17 @@ tail -8 ~/.dictation-turbo/dictation.log
 - 有 `没听到声音（峰值 …）` → 麦克风没收到，让人确认默认输入设备、并且说话时靠近一点。
 - 有 `已送进光标` 但用户说没看到字 → 多半是他当时没有把光标放在能打字的地方。
 
+### 6.4 验双击判定（纯逻辑，随时可跑）
+
+```sh
+"$HOME/Applications/Dictation Turbo.app/Contents/MacOS/DictationTurbo" --hotkey-test
+```
+
+**验收**：6 项全过、退出码 0。它在验两件事：干净的双击要触发；
+**两次 Control 中间按过别的键就不该触发**（否则连按快捷键会误开录音，
+实测误录过 61 秒，见 PITFALLS 第 12 条）。
+这个测试不申请权限、不发任何按键，所以**不会动到用户正在编辑的东西**。
+
 ## 第 7 步 · 报告（照这个格式）
 
 ```
@@ -202,6 +213,7 @@ Dictation Turbo 安装报告
 - 编译与签名：✓ / ad-hoc
 - 辅助功能权限：已给 / 没给
 - 自检（--selftest）：通过几段、引擎分别是
+- 双击判定自检（--hotkey-test）：通过 / 没通过
 - 落字自测：通过 / 没通过
 - 端到端实测（用户操作）：通过 / 没通过 / 未做
 - 还没解决的事：
