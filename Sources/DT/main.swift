@@ -192,6 +192,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         if !listening {
             hotkey.onDoubleTap = { [weak self] in self?.toggle() }
+            // 录音当中放松"干净双击"那条要求 ——
+            // 免得一边说话一边还在打字的人，反而停不下来。
+            hotkey.isRelaxed = { [weak self] in self?.recorder.isRecording ?? false }
             listening = hotkey.start()
             Config.log(listening ? "监听已就绪" : "监听启动失败")
         }
@@ -282,6 +285,7 @@ private func printHelp() {
       DictationTurbo                 正常跑（菜单栏常驻）
       DictationTurbo --doctor        体检：权限、签名、两只耳朵、麦克风、自启
       DictationTurbo --selftest a.wav [b.wav …]   不开麦克风，只验识别那一段
+      DictationTurbo --hotkey-test   只验双击判定（纯逻辑，不碰键盘）
       DictationTurbo --version
     """)
 }
@@ -293,6 +297,8 @@ if argv.count >= 2 {
         SelfTest.run(paths: Array(argv.dropFirst(2)))
     case "--doctor":
         Doctor.run()
+    case "--hotkey-test":
+        exit(HotkeySelfTest.run())
     case "--version":
         print(Config.version); exit(0)
     case "--help", "-h":
