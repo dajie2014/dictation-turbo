@@ -6,7 +6,7 @@ import CryptoKit
 /// 全部可以留空 —— 不写这个文件它照样能跑。
 struct Settings {
     /// 传给 VoiceStudio 的语言提示。默认 auto：让它自己判断，
-    /// 这样一次听写里中德英混着说也没关系（这本来就是它主打的用法）。
+    /// 这样一次听写里中德英换着说也没关系。
     var languageHint = "auto"
     /// 两次 Control 之间小于这个秒数才算「双击」
     var doubleTapSeconds: TimeInterval = 0.35
