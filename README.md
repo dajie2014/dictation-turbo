@@ -24,11 +24,11 @@
 ## 0. 不想碰终端？直接下载
 
 1. **下载**：<https://github.com/dajie2014/dictation-turbo/releases/latest>
-   （文件叫 `DictationTurbo-1.0.2-macOS.zip`）
+   （文件叫 `DictationTurbo-1.0.3-macOS.zip`）
 
    > **下载卡在 0% 不动？** 国内网络常见 —— 那个下载服务器时通时不通。
    > **换这条备用直链**（走的是另一个 CDN，实测快二十多倍）：
-   > <https://cdn.jsdelivr.net/gh/dajie2014/dictation-turbo@main/dist/DictationTurbo-1.0.2-macOS.zip>
+   > <https://cdn.jsdelivr.net/gh/dajie2014/dictation-turbo@main/dist/DictationTurbo-1.0.3-macOS.zip>
 
 2. 解压，把 **Dictation Turbo** 拖进「应用程序」
 3. **第一次打开，系统会拦你一下** —— 因为没买苹果的开发者证书（一年 99 美元那个）。
