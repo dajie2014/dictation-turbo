@@ -6,7 +6,7 @@
 不用切窗口、不用切输入法、不用点麦克风图标。它常驻在菜单栏，没有窗口。
 
 - 中文、英文、德文、日文、法文…… **646 种语言**直接说，
-  一句话里混着说几种也行
+  一句一句换着说也行（**一句话里夹着两种语言不行**：引擎整句只认一种，夹进来的词会掉）
 - 说话的时候**不用选语言** —— 它自己判断
 - 装上之后**开机就在**，不用记得先开它
 
@@ -204,7 +204,9 @@ VoiceStudio 自己是**免费的开源软件**（AGPL-3.0，不收费），用�
 It lives in the menu bar, has no window, and never asks you to switch input methods.
 
 - **646 languages** through [VoiceStudio](https://github.com/debpalash/VoiceStudio) —
-  mix Chinese, English and German in one sentence if you like
+  Chinese, English, German and more; go from one language to the next with no switching action.
+  (Mixing two languages *inside* one sentence is not supported: the engine picks a single language per
+  take, and a word that doesn't belong gets dropped or mangled — see [PITFALLS #28](PITFALLS.md))
 - You don't pick the language; it figures it out
 - Starts with your Mac (optional), so it's always there
 
