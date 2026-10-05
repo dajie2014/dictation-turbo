@@ -246,6 +246,28 @@ enum Engines {
 
     // MARK: - 路由
 
+    /// 结果落在"他不会说的文字系统"里？（泰文、阿拉伯文、西里尔文……）
+    ///
+    /// VoiceStudio 的自动语言检测在短句上会跑偏：明明是中文，它能听成泰文
+    /// （2026-10-05 实测，框里出来一串 `อย่างเลา.`）。
+    /// 这种情况要送去 DSH 重听 —— DSH 只出中文/英文/日文/韩文/粤语，救得回来。
+    /// 德语/英语是拉丁字母、中文是汉字、日韩是假名谚文，都不算"跑偏"，不受影响。
+    static func looksOffScript(_ text: String) -> Bool {
+        var odd = 0
+        var letters = 0
+        for s in text.unicodeScalars where CharacterSet.letters.contains(s) {
+            letters += 1
+            let v = s.value
+            let latin = (0x41...0x5A).contains(v) || (0x61...0x7A).contains(v) || (0xC0...0x24F).contains(v)
+            let han = (0x4E00...0x9FFF).contains(v)
+            let kana = (0x3040...0x30FF).contains(v)
+            let hangul = (0xAC00...0xD7AF).contains(v)
+            if !(latin || han || kana || hangul) { odd += 1 }
+        }
+        guard letters > 0 else { return false }
+        return Double(odd) / Double(letters) > 0.3
+    }
+
     /// 含汉字的比例够高就认为说的是中文。
     /// 这一步是必需的：SenseVoice 不认识德语时不会说"我不认识"，它硬猜。
     static func looksChinese(_ text: String) -> Bool {
@@ -255,31 +277,59 @@ enum Engines {
         return Double(han) / Double(letters) > 0.4
     }
 
-    /// 主流程：VoiceStudio 先出结果；像中文且 DSH 可用，就换 DSH 重听（更准）。
-    /// 任何一边不可用都不致命 —— 另一边顶上。
+    /// 主流程（2026-10-05 改版，用户要求：「中文直接走 DSH 那个引擎」）。
+    ///
+    /// 他是中文母语，日常绝大多数话是中文；而 VoiceStudio 的**自动语言检测**
+    /// 在短句上会跑偏 —— 实测把中文听成过泰文、也听成过一串拉丁字母。
+    /// DSH 的 SenseVoice 是中文专精，这种错它基本不犯。
+    ///
+    /// 所以顺序倒过来了：**先问 DSH**
+    ///   · DSH 给的结果像中文 → 直接用它（这正是它最准的地方）
+    ///   · DSH 给的不像中文   → 多半真不是中文（德语/英语…），交给 VoiceStudio
+    ///   · DSH 没装 / 没接上  → 全程 VoiceStudio
+    ///
+    /// 代价：说德语时 DSH 会先空跑一次（约 0.2 秒）才发现"这不是中文"。
+    /// 中文则快了一倍 —— 少一次网络往返。
     static func route(_ wav: Data, completion: @escaping (String?, String) -> Void) {
-        voiceStudio(wav) { vsResult in
-            switch vsResult {
-            case .success(let vsText) where Config.settings.chineseViaDSH && looksChinese(vsText):
-                dsh(wav) { dshResult in
-                    if case .success(let t) = dshResult, !t.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        completion(t, "DSH（中文增强）")
-                    } else {
-                        completion(vsText, "VoiceStudio")
-                    }
+        guard Config.settings.chineseViaDSH else {
+            voiceStudioOnly(wav, completion: completion)
+            return
+        }
+        dsh(wav) { dshResult in
+            var dshText: String?
+            if case .success(let t) = dshResult {
+                let trimmed = t.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !trimmed.isEmpty { dshText = trimmed }
+                if !trimmed.isEmpty, looksChinese(trimmed) {
+                    completion(trimmed, "DSH")
+                    return
                 }
-            case .success(let vsText):
-                completion(vsText, "VoiceStudio")
-            case .failure(let vsErr):
-                // VoiceStudio 没开或出错 → 还有 DSH 这条退路
-                Config.log("VoiceStudio 没接上：\(vsErr.localizedDescription)")
-                dsh(wav) { dshResult in
-                    if case .success(let t) = dshResult {
+            }
+            // DSH 没结果、或者它听着不像中文 → 请 VoiceStudio 再听
+            voiceStudio(wav) { vsResult in
+                switch vsResult {
+                case .success(let vsText):
+                    completion(vsText, dshText == nil ? "VoiceStudio" : "VoiceStudio（DSH 听着不像中文）")
+                case .failure(let vsErr):
+                    Config.log("VoiceStudio 没接上：\(vsErr.localizedDescription)")
+                    if let t = dshText {
                         completion(t, "DSH（VoiceStudio 没接上）")
                     } else {
                         completion(nil, "两个引擎都没接上")
                     }
                 }
+            }
+        }
+    }
+
+    /// 不用 DSH 时：VoiceStudio 一条路走到底。
+    private static func voiceStudioOnly(_ wav: Data, completion: @escaping (String?, String) -> Void) {
+        voiceStudio(wav) { vsResult in
+            switch vsResult {
+            case .success(let vsText): completion(vsText, "VoiceStudio")
+            case .failure(let vsErr):
+                Config.log("VoiceStudio 没接上：\(vsErr.localizedDescription)")
+                completion(nil, "VoiceStudio 没接上")
             }
         }
     }
