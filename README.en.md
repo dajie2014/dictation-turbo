@@ -42,11 +42,11 @@ No window, no input-method switching: it lives in the menu bar.
 ### Option A — download (no terminal needed)
 
 1. **[Download the latest release](https://github.com/dajie2014/dictation-turbo/releases/latest)**
-   (`DictationTurbo-1.0.2-macOS.zip`)
+   (`DictationTurbo-1.0.3-macOS.zip`)
 
    > **Stuck at 0%?** Common on Chinese networks — that download host is flaky.
    > **Use this mirror instead** (it was ~25× faster in testing):
-   > <https://cdn.jsdelivr.net/gh/dajie2014/dictation-turbo@main/dist/DictationTurbo-1.0.2-macOS.zip>
+   > <https://cdn.jsdelivr.net/gh/dajie2014/dictation-turbo@main/dist/DictationTurbo-1.0.3-macOS.zip>
 
 2. Unzip it and drag **Dictation Turbo** into Applications.
 3. **macOS will block it on first launch** — the app is self-signed, with no paid Apple
