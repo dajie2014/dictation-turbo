@@ -5,15 +5,16 @@
 **在任何能打字的地方，双击 Control，说一句话，字落在光标那儿。**
 不用切窗口、不用切输入法、不用点麦克风图标。它常驻在菜单栏，没有窗口。
 
-- 中文、英文、德文、日文、法文…… **646 种语言**直接说，
+- 中文、英文、德文、法文、意大利文、西班牙文、俄文…… **二十多种语言**直接说，
   一句一句换着说也行（**一句话里夹着两种语言不行**：引擎整句只认一种，夹进来的词会掉）
 - 说话的时候**不用选语言** —— 它自己判断
 - 装上之后**开机就在**，不用记得先开它
 
 > ⚠️ **它必须配 VoiceStudio 用。** [VoiceStudio](https://github.com/debpalash/VoiceStudio)
 > 是**免费的开源软件**（AGPL-3.0）—— **不用花钱，也不用订阅**，下载装上就行。
-> 它自带 646 种语言的听写引擎，装好后在本机 `127.0.0.1:3900`
-> 上跑一个服务。Dictation Turbo 做的事，是给这个服务配一个**随时能按的开关**，
+> 它内部有好几套听写引擎、号称支持 646 种语言，装好后在本机 `127.0.0.1:3900`
+> 上跑一个服务。**Dictation Turbo 实测过、可以放心用的是中文 + 25 种欧洲语言这一档。**
+> Dictation Turbo 做的事，是给这个服务配一个**随时能按的开关**，
 > 并且把结果**送进你正在打字的地方**。
 >
 > **没有 VoiceStudio，它一句都转不出来。** 先装 VoiceStudio，再装它。
@@ -63,7 +64,10 @@
    curl -s http://127.0.0.1:3900/health
    ```
 
-**语言能力来自 VoiceStudio**：它支持 646 种语言，Dictation Turbo 一个不少地转给你用。
+**语言能力来自 VoiceStudio**：它内部可选好几套模型（号称 646 种语言），
+而 Dictation Turbo 走的那条路，**实测过的是中文 + 25 种欧洲语言**
+（德、英、法、意、西、葡、俄、荷、波兰、捷克……）。**这二十多种，每一种都准**；
+超出这一档的语言，会被硬猜成别的语言、或者根本出不来字 —— 所以宁可把话说小。
 想限制成某一种语言，见下面第 6 节（默认是"自动判断"，这也是最省事的用法）。
 
 ## 2. 装 Dictation Turbo
@@ -203,8 +207,9 @@ VoiceStudio 自己是**免费的开源软件**（AGPL-3.0，不收费），用�
 **Double-tap Control anywhere on your Mac, speak, and the text lands at your cursor.**
 It lives in the menu bar, has no window, and never asks you to switch input methods.
 
-- **646 languages** through [VoiceStudio](https://github.com/debpalash/VoiceStudio) —
-  Chinese, English, German and more; go from one language to the next with no switching action.
+- **20+ languages** through [VoiceStudio](https://github.com/debpalash/VoiceStudio) —
+  Chinese, German, English, French, Italian, Spanish, Russian and more;
+  go from one language to the next with no switching action.
   (Mixing two languages *inside* one sentence is not supported: the engine picks a single language per
   take, and a word that doesn't belong gets dropped or mangled — see [PITFALLS #28](PITFALLS.md))
 - You don't pick the language; it figures it out
