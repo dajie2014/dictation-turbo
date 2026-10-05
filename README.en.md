@@ -5,8 +5,9 @@
 **Double-tap Control anywhere on a Mac, speak, and the text lands at your cursor.**
 No window, no input-method switching: it lives in the menu bar.
 
-- Chinese, German, English, Japanese, French … **646 languages**, and you can mix
-  them inside one sentence
+- Chinese plus **18 European languages** — German, English, French, Italian, Spanish, Portuguese,
+  Dutch, Russian, Swedish, Polish, Czech, Ukrainian, Bulgarian, Lithuanian, Finnish, Slovak,
+  Greek, Hungarian. Every single one tested.
 - **You never pick a language** — it works it out itself
 - Once installed it **starts with your Mac**
 
