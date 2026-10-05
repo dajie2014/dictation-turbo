@@ -11,14 +11,21 @@ No window, no input-method switching: it lives in the menu bar.
 - Once installed it **starts with your Mac**
 
 > ⚠️ **It needs [VoiceStudio](https://github.com/debpalash/VoiceStudio) to transcribe anything.**
-> VoiceStudio is open source (AGPL-3.0) and runs a local speech engine on
+> VoiceStudio is **free, open-source software** (AGPL-3.0) — **nothing to buy, no
+> subscription**. It runs a local speech engine on
 > `127.0.0.1:3900`. Dictation Turbo is the always-available switch in front of that
 > engine, plus the part that types the result into whatever you were typing in.
 > **Without VoiceStudio it cannot turn a single word into text.**
+> **Both programs are free** — this one MIT, VoiceStudio AGPL.
 
 ---
 
 ## 1. Install VoiceStudio first (required)
+
+> **This section costs nothing.** VoiceStudio is free and open source: no purchase,
+> no subscription, no trial period, no "pro" edition. **There is nothing to buy here** —
+> both programs are free (this one MIT, VoiceStudio AGPL-3.0). The only thing you spend
+> is time and a few GB of disk: the first launch downloads a recognition model.
 
 1. Download and install it: <https://voicestudio.sh/> or
    <https://github.com/debpalash/VoiceStudio/releases/latest>
