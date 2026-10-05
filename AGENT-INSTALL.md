@@ -12,7 +12,8 @@
 > 在这台 Mac 上帮我装好 **Dictation Turbo**（<https://github.com/dajie2014/dictation-turbo>）：
 > 一个常驻菜单栏的听写工具 —— 在任何程序里双击 Control 说一句话，文字落进光标。
 >
-> **硬前提：这台机器必须已经装好并运行 VoiceStudio**（<https://voicestudio.sh/>，开源 AGPL-3.0，
+> **硬前提：这台机器必须已经装好并运行 VoiceStudio**（<https://voicestudio.sh/>，**免费开源**，
+> AGPL-3.0 —— 下载、安装、使用都不收费，也不用买任何别的软件，
 > 本机服务在 `127.0.0.1:3900`）。它的 646 种语言识别就是本工具的**全部**语言能力来源 ——
 > 装好之后 646 种语言一个都不能少，不要自作主张限制成某一种语言（默认 `language: auto`）。
 > 如果 VoiceStudio 没装或没在跑：**先停下来告诉我**，别自己下一个几 G 的模型。
@@ -53,7 +54,8 @@ curl -s -m 5 http://127.0.0.1:3900/.well-known/voicestudio-speech | head -c 300
 
 - 返回 ok → 记下 `device` 和 `version`，继续。
 - 连不上 → **停下来告诉用户**：需要先装 VoiceStudio
-  （<https://voicestudio.sh/>），装完打开一次让服务起来（首次会下模型，几个 G）。
+  （<https://voicestudio.sh/>，**免费的开源软件，不用买、不用订阅**），
+  装完打开一次让服务起来（首次会下模型，几个 G）。
   **不要**替用户下载模型。
 - 想确认它真能转写（可选，但很值）：
 
