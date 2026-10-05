@@ -45,6 +45,13 @@ rm -rf "${APP_DIR}"
 mkdir -p "${APP_DIR}/Contents/MacOS" "${APP_DIR}/Contents/Resources"
 cp "${BIN}" "${APP_DIR}/Contents/MacOS/${EXEC_NAME}"
 
+# 提示音随包进去：开始 / 结束 / 出错三个短音。
+# 自己合成而不用系统音 —— 系统那几声彼此响度差太多（结尾那个比开头轻约 9 分贝），
+# 吵一点的地方就听不出来；合成音的音高、音量、时长都自己定，也不受 macOS 改版影响。
+if [ -d "${ROOT}/Resources" ]; then
+  cp "${ROOT}"/Resources/*.wav "${APP_DIR}/Contents/Resources/"
+fi
+
 cat > "${APP_DIR}/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
