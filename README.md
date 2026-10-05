@@ -11,11 +11,13 @@
 - 装上之后**开机就在**，不用记得先开它
 
 > ⚠️ **它必须配 VoiceStudio 用。** [VoiceStudio](https://github.com/debpalash/VoiceStudio)
-> 是开源软件（AGPL-3.0），自带 646 种语言的听写引擎，装好后在本机 `127.0.0.1:3900`
+> 是**免费的开源软件**（AGPL-3.0）—— **不用花钱，也不用订阅**，下载装上就行。
+> 它自带 646 种语言的听写引擎，装好后在本机 `127.0.0.1:3900`
 > 上跑一个服务。Dictation Turbo 做的事，是给这个服务配一个**随时能按的开关**，
 > 并且把结果**送进你正在打字的地方**。
 >
 > **没有 VoiceStudio，它一句都转不出来。** 先装 VoiceStudio，再装它。
+> **两个都不要钱**：这个 MIT，那个 AGPL。
 
 ---
 
@@ -45,6 +47,11 @@
 ---
 
 ## 1. 先装 VoiceStudio（必须）
+
+> **这一节不要钱。** VoiceStudio 是免费的开源软件：下载、安装、使用都不收费，
+> 也没有订阅、没有试用期、没有"高级版"。**这里没有任何要买的东西** ——
+> 两个程序都是免费的，这个 MIT，那个 AGPL-3.0。
+> （唯一要花的可能是时间和几个 G 的硬盘：首次启动它会下一套识别模型。）
 
 1. 下载并安装：<https://voicestudio.sh/> 或
    <https://github.com/debpalash/VoiceStudio/releases/latest>
@@ -171,7 +178,7 @@ cd dictation-turbo
 
 ## 8. 已知限制
 
-- **VoiceStudio 必须开着**（识别是它做的）。
+- **VoiceStudio 必须开着**（识别是它做的，它是免费的，见第 1 节）。
 - **DSH 是可选的**。没有它，中文照样能出，只是偶尔会冒出繁体字或掉个字。
 - 密码输入框、以及任何不接受 ⌘V 的地方，粘不进去。
 - 说错了想中途取消 —— **不支持，也不打算做**：说完再手动改就是了。
@@ -187,7 +194,7 @@ cd dictation-turbo
 
 MIT。见 [LICENSE](LICENSE)。
 本项目**不包含** VoiceStudio 的代码，只是在你的机器上调用它的本机服务 ——
-VoiceStudio 自己是 AGPL-3.0，用它请遵守它的许可。
+VoiceStudio 自己是**免费的开源软件**（AGPL-3.0，不收费），用它请遵守它的许可。
 
 ---
 
@@ -203,10 +210,12 @@ It lives in the menu bar, has no window, and never asks you to switch input meth
 
 ### Requirements
 
-**VoiceStudio is required.** It is open source (AGPL-3.0) and runs a local speech
+**VoiceStudio is required — and it is free.** It is open source (AGPL-3.0): no purchase,
+no subscription, no paid tier. It runs a local speech
 service on `127.0.0.1:3900`. Install it from <https://voicestudio.sh/>, launch it once,
 then check with `curl -s http://127.0.0.1:3900/health`.
 Without it Dictation Turbo cannot transcribe anything.
+**Both programs are free** — this one MIT, VoiceStudio AGPL.
 
 Optionally, if you happen to run **DeepSeek Harness (DSH)**, Chinese gets a second pass
 through its SenseVoice engine — slightly more accurate, simplified characters.
