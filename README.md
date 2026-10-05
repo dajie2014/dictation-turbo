@@ -1,5 +1,7 @@
 # Dictation Turbo · a system add-on for Mac
 
+**English** · [Read this in English →](README.en.md)
+
 **在任何能打字的地方，双击 Control，说一句话，字落在光标那儿。**
 不用切窗口、不用切输入法、不用点麦克风图标。它常驻在菜单栏，没有窗口。
 
