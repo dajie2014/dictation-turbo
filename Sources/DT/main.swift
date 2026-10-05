@@ -2,6 +2,7 @@
 // 常驻菜单栏、没有窗口。它要"躺在系统里"，不是那种要切过去的程序。
 import Cocoa
 import AVFoundation
+import ApplicationServices
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -205,12 +206,56 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func toggle() {
         // 已经在录了就一定让它能停，哪怕这时候人切到了 DSH
-        if yieldToDSHPage, !recorder.isRecording,
-           NSWorkspace.shared.frontmostApplication?.bundleIdentifier == Config.dshBundleID {
-            Config.log("DSH 在前台，让路给页面版")
+        if yieldToDSHPage, !recorder.isRecording, dshOwnsKeyboardFocus() {
             return
         }
         if recorder.isRecording { finish() } else { begin() }
+    }
+
+    /// 这一下按键该不该让给页面版插件？
+    ///
+    /// 两条都满足才让路：**DSH 在前台**，**键盘确实在 DSH 手里**。
+    ///
+    /// 只看前台是不够的 —— 聚焦搜索（⌘空格）这类系统浮层弹出来时，前台应用
+    /// 仍然是 DSH，但键盘已经被它拿走了；页面版插件收不到那些按键，这时候再让路
+    /// 就成了「两边都不管」，用户按半天没反应。
+    ///
+    /// ⚠️ 2026-10-05 实测的坑：**「焦点元素」(kAXFocusedUIElement) 会被骗** ——
+    /// 聚焦搜索明明开着，它照样报 DSH 的焦点元素，于是判据形同虚设。
+    /// 现在改用**「当前接收键盘的应用」(kAXFocusedApplication)** 作主判据，
+    /// 焦点元素只当日志里的补充信息。
+    private func dshOwnsKeyboardFocus() -> Bool {
+        guard let front = NSWorkspace.shared.frontmostApplication,
+              front.bundleIdentifier == Config.dshBundleID else { return false }
+        let dshPid = front.processIdentifier
+        let system = AXUIElementCreateSystemWide()
+
+        // ① 主判据：系统说"键盘现在归哪个应用"
+        var appPid: pid_t = 0
+        var appRef: CFTypeRef?
+        if AXUIElementCopyAttributeValue(system, kAXFocusedApplicationAttribute as CFString, &appRef) == .success,
+           let appEl = appRef {
+            AXUIElementGetPid(appEl as! AXUIElement, &appPid)
+        }
+
+        // ② 补充信息：焦点元素（这条在聚焦搜索下会骗人，只记不看）
+        var focusPid: pid_t = 0
+        var roleName = "-"
+        var focusRef: CFTypeRef?
+        if AXUIElementCopyAttributeValue(system, kAXFocusedUIElementAttribute as CFString, &focusRef) == .success,
+           let focusEl = focusRef {
+            AXUIElementGetPid(focusEl as! AXUIElement, &focusPid)
+            var roleRef: CFTypeRef?
+            if AXUIElementCopyAttributeValue(focusEl as! AXUIElement, kAXRoleAttribute as CFString, &roleRef) == .success,
+               let r = roleRef as? String { roleName = r }
+        }
+
+        // 拿不到（0 / 没权限）就按老规矩让路：宁可漏一次，也别把同一句话落两遍。
+        let appInDSH = (appPid == 0) || (appPid == dshPid)
+        let focusInDSH = (focusPid == 0) || (focusPid == dshPid)
+        let yield = appInDSH && focusInDSH
+        Config.log("双击：键盘应用 pid=\(appPid)，焦点元素 pid=\(focusPid) role=\(roleName)，DSH pid=\(dshPid) → \(yield ? "让路给页面版" : "自己上")")
+        return yield
     }
 
     private func begin() {
