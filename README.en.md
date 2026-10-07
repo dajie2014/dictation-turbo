@@ -10,6 +10,9 @@ No window, no input-method switching: it lives in the menu bar.
   Greek, Hungarian. Every single one tested.
 - **You never pick a language** — it works it out itself
 - Once installed it **starts with your Mac**
+- **Works with professional multi-channel interfaces** — Focusrite Scarlett,
+  Universal Audio Apollo, RME, Audient and similar are handled explicitly
+  (left to itself, software on a multi-channel interface often ends up "hearing nothing")
 
 > ⚠️ **It needs [VoiceStudio](https://github.com/debpalash/VoiceStudio) to transcribe anything.**
 > VoiceStudio is **free, open-source software** (AGPL-3.0) — **nothing to buy, no
