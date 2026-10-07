@@ -11,6 +11,8 @@
   （**一句话里夹着两种语言不行**：引擎整句只认一种，夹进来的词会掉）
 - 说话的时候**不用选语言** —— 它自己判断
 - 装上之后**开机就在**，不用记得先开它
+- **专业多路声卡也能用**：Focusrite Scarlett、Universal Audio Apollo、RME、Audient
+  这类多通道接口已经单独适配过（多通道声卡如果没人管，软件很容易"收到全零"）
 
 > ⚠️ **它必须配 VoiceStudio 用。** [VoiceStudio](https://github.com/debpalash/VoiceStudio)
 > 是**免费的开源软件**（AGPL-3.0）—— **不用花钱，也不用订阅**，下载装上就行。
